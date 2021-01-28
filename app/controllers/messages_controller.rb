@@ -14,7 +14,21 @@ class MessagesController < CrudController
 
   before_render_form :set_recipient_count
 
+  before_action :authorize_duplicate, only: :new
+
+  def new
+    assign_attributes_from_template if template.present?
+    super
+  end
+
   private
+
+  def assign_attributes_from_template
+    # We can't simply assign .attributes because the rich text body is not included in .attributes
+    template.class.duplicatable_attrs.each do |attr|
+      entry.send("#{attr}=", template.send(attr))
+    end
+  end
 
   def list_entries
     super.list.page(params[:page]).per(50).where(created_at: year_filter)
@@ -29,6 +43,10 @@ class MessagesController < CrudController
     model_params && model_params[:type].presence
   end
 
+  def template
+    @template ||= Message.find_by id: params[:duplicate_from]
+  end
+
   def well_known?(type)
     type_class = type.safe_constantize
     type_class && type_class <= Message
@@ -40,6 +58,10 @@ class MessagesController < CrudController
 
   def authorize_class
     authorize!(:update, parent)
+  end
+
+  def authorize_duplicate
+    authorize!(:show, template) if template.present?
   end
 
   def set_recipient_count

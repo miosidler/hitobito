@@ -43,6 +43,9 @@ class Message < ActiveRecord::Base
   i18n_enum :state, STATES, scopes: true, queries: true
   validates :state, inclusion: { in: STATES }
 
+  class_attribute :duplicatable_attrs
+  self.duplicatable_attrs = %w(subject type mailing_list_id)
+
   scope :list, -> { order(:created_at) }
 
   def to_s

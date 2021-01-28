@@ -8,4 +8,6 @@
   = action_button(t('.button_dispatch_letter'), message_dispatch_path(message_id: entry.id), :paper_plane, method: :post)
 
   = button_action_edit if can?(:edit, entry)
+  - if can?(:new, entry)
+    = action_button(t('.button_duplicate'), new_polymorphic_path(path_args(entry.class), duplicate_from: entry.id, message: { type: entry.type }), 'copy')
   = button_action_destroy if can?(:destroy, entry)

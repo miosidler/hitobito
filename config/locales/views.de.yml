@@ -844,6 +844,7 @@ de:
         success: "%{model_class} wurde als Druckauftrag vorbereitet."
     actions_show:
       button_dispatch_letter: Druckauftrag erstellen
+      button_duplicate: Duplizieren
       button_preview: Vorschau
     form:
       available_placeholders: 'Verfügbare Platzhalter: %{placeholders}'

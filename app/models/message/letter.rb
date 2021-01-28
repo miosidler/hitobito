@@ -30,4 +30,6 @@ class Message::Letter < Message
   has_rich_text :body
 
   validates_presence_of :body
+
+  self.duplicatable_attrs << 'body'
 end

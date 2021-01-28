@@ -14,8 +14,12 @@ module MessagesHelper
                   'plus')
   end
 
-  def message_placeholders
-    Export::Pdf::Messages::Letter::Content.placeholders.map { |p| "{#{p}}" }.join(', ')
+  def available_placeholders(editor_id)
+    safe_join([
+                  t('messages.form.available_placeholders'),
+                  ' ',
+                  safe_join(placeholder_links(editor_id), ', ')
+              ])
   end
 
   def format_message_type(message)
@@ -34,5 +38,20 @@ module MessagesHelper
            when /failed/ then 'important'
            end
     badge(message.state_label, type)
+  end
+
+  private
+
+  def placeholder_links(editor_id)
+    message_placeholders.map do |p|
+      content_tag(:a,
+                  "{#{p}}",
+                  { data: { 'clickable-placeholder': editor_id } },
+                  false).html_safe
+    end
+  end
+
+  def message_placeholders
+    Export::Pdf::Messages::Letter::Content.placeholders
   end
 end

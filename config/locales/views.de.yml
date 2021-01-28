@@ -846,7 +846,7 @@ de:
       button_dispatch_letter: Druckauftrag erstellen
       button_preview: Vorschau
     form:
-      available_placeholders: 'Verfügbare Platzhalter: %{placeholders}'
+      available_placeholders: 'Verfügbare Platzhalter:'
       recipient_info:
         one: "%{model_class} wird für eine Person erstellt."
         other: "%{model_class} wird für %{count} Personen erstellt."
